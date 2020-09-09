@@ -1,45 +1,82 @@
-var model ={};
+var model = {};
 var customers = [
-	{id:1, name:'Vivek', email:'vivek@gmail.com', phone:'112233', address:'ahmedabad'},
-	{id:2, name:'Rama', email:'vivek@gmail.com', phone:'112233', address:'ahmedabad'},
-	{id:3, name:'Krishna', email:'vivek@gmail.com', phone:'112233', address:'ahmedabad'},
-    {id:4, name:'Rahim', email:'vivek@gmail.com', phone:'112233', address:'ahmedabad'},
-    
+  {
+    id: 1,
+    name: "Vivek",
+    email: "vivek@gmail.com",
+    phone: "112233",
+    address: "ahmedabad",
+  },
+  {
+    id: 2,
+    name: "Rama",
+    email: "vivek@gmail.com",
+    phone: "999",
+    address: "ahmedabad",
+  },
+  {
+    id: 3,
+    name: "Krishna",
+    email: "vivek@gmail.com",
+    phone: "112233",
+    address: "ahmedabad",
+  },
+  {
+    id: 4,
+    name: "Rahim",
+    email: "vivek@gmail.com",
+    phone: "112233",
+    address: "ahmedabad",
+  },
 ];
 
-model.getRecords = function(){
-	return customers;
-}
+model.getRecords = function () {
+  return customers;
+};
 
-model.getRecordById = function(recordId){
-    for (var i = 0; i < customers.length; i++){
-        if(recordId == customers[i].id){
-            return customers[i];
-        }
+//CRUD
+//read operation
+model.getRecordById = function (id) {
+  for (var i = 0; i < customers.length; i++) {
+    if (id == customers[i].id) {
+      return customers[i];
     }
-	return {};
-}
+  }
+  return {};
+};
 
-model.addRecord = function(record){
-	return customers.push(record);
-}
+//create operation
+model.addRecord = function (record) {
+  return customers.push(record);
+};
 
-model.deleteRecord = function(record){
-	let temp = [];
-	for (var i = 0; i < customers.length; i++) {
-		if(record.id != customers[i].id){
-			temp.push(customers[i]);
-		}
-	}
-	customers = temp;
-}
+//delete operation
+model.deleteRecord = function (record) {
+  let temp = [];
+  for (var i = 0; i < customers.length; i++) {
+    if (record.id != customers[i].id) {
+      temp.push(customers[i]);
+    }
+  }
+  customers = temp;
+};
 
-model.updateRecord = function(record){
-	let customer = record;
-	for (var i = 0; i < customers.length; i++) {
-		if(customer.id == customers[i].id){
-			customers[i] = customer;
-		}
-	}
-}
+//update operation
+model.updateRecord = function (customer) {
+  for (var i = 0; i < customers.length; i++) {
+    if (customer.id == customers[i].id) {
+      customers[i] = customer;
+    }
+  }
+};
+
+model.query = function (key, value) {
+  for (var i = 0; i < customers.length; i++) {
+    if (customers[i][key] == value) {
+      return customers[i];
+    }
+  }
+  return;
+};
+
 module.exports = model;
