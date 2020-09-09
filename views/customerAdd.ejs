@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <script type="text/javascript">
+      addCustomer = () => {
+        var record = {};
+        record.email = $("#email").val();
+        record.name = $("#name").val();
+        record.phone = $("#phone").val();
+        record.address = $("#address").val();
+        record.id = `<%= (customers.length + 1) %>`;
+        if (record.name == "") {
+          alert("Name cannot be blank.");
+        } else {
+          $.ajax({
+            url: "/api/customer",
+            method: "POST",
+            data: record,
+            success: function (response) {
+              if (response.result == "success") {
+                location = "/customer";
+              } else {
+                alert(response.msg);
+              }
+            },
+          });
+        }
+        /*else if(email == password) {
+//location = "/customer";
+}*/
+      };
+    </script>
+    <script
+      type="text/javascript"
+      src="https:code.jquery.com/jquery-3.5.1.min.js"
+    ></script>
+    <h1><%= title %></h1>
+    <div id="login">
+      <input
+        id="name"
+        type="text"
+        name=""
+        placeholder="Enter name"
+      /><br /><br />
+      <input
+        id="email"
+        type="text"
+        name=""
+        placeholder="Enter email"
+      /><br /><br />
+      <input
+        id="phone"
+        type="text"
+        name=""
+        placeholder="Enter phone"
+      /><br /><br />
+      <input id="address" type="password" name="" placeholder="Enter address" />
+      <br /><br />
+      <input onclick="addCustomer();" type="button" name="" value="Submit" />
+    </div>
+  </body>
+</html>

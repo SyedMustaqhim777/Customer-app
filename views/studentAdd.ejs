@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title><%= title %></title>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+  <script type="text/javascript">
+    addstudent = () => {
+      var record = {}
+      record.id = $('#id').val();
+      record.name = $('#name').val();
+      record.parent = $('#parent').val();
+      record.class = $('#class').val();
+      record.subject = $('#subject').val();
+      record.teacher = $('#teacher').val();
+      record.city = $('#city').val();
+      record.country = $('#country').val();
+
+      record.id = (students.length + 1);
+      if(record.name ==""){
+        alert('Name cannot be blank.');
+      } else{
+        $.ajax({url: "/api/student",
+         method:'POST',
+         data:record,
+         success: function(response){
+           if(response.result =="success"){
+              location = "/student";
+           }else{
+             alert(response.msg);
+          }
+        }});
+    }
+/*else if(email == password) {
+//location = "/student";
+}*/
+}
+</script>
+<script type="text/javascript" src="https:code.jquery.com/jquery-3.5.1.min.js"></script>
+<h1><%= title %></h1>
+<div id="login">
+ <input id ="id" type="text" name="" placeholder="Enter id"><br/><br/>
+ <input id ="name" type="text" name="" placeholder="Enter id"><br/><br/>
+ <input id ="parent" type="text" name="" placeholder="Enter parent name"><br/><br/>
+ <input id ="class" type="text" name="" placeholder="Enter class"><br/><br/>
+ <input id ="subject" type="text" name="" placeholder="Enter subject"><br/><br/>
+ <input id ="teacher" type="text" name="" placeholder="Enter teacher"><br/><br/>
+ <input id ="city" type="text" name="" placeholder="Enter city"><br/><br/>
+ <input id ="country" type="text" name="" placeholder="Enter country"><br/><br/>
+<input onclick ="addstudent();" type="button" name="" value ="Submit">
+</div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <button onclick="location = '/home'" >Home</button>  &nbsp;| &nbsp;
+    <button onclick="location = '/student'" >student</button>  &nbsp;| &nbsp;
+    <button onclick="location = '/student'" >Student</button>  &nbsp;| &nbsp;
+    <button onclick="location = '/about'" >About</button>  &nbsp;| &nbsp;
+    <button onclick="location = '/login'" >logout</button>
+    <hr/>
+
+    <h4><%= students.length %> students<h4>
+        <button onClick="location='/student/add';">Add student</button><br/><br/>
+       <div class="page-data" style="font-size: 14px; font-weight: normal;">
+         <div class="data-table">
+            <table border="1" cellpadding="7" cellspacing="7">
+                <tr>
+                    <th width="250px">id</th>
+                    <th width="250px">name</th>
+                    <th width="220px">parent</th>
+                    <th width="100px">class</th>
+                    <th width="300px">subject</th>
+                    <th width="250px">teacher</th>
+                    <th width="250px">city</th>
+                    <th width="250px">country</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+        <tbody>
+    <% if(students.length){for(var i = 0;i < students.length;i++) { %>       
+                <tr>
+                    <td><%=students[i].id%></td>
+                    <td><%=students[i].name%></td>
+                    <td><%=students[i].parent%></td>
+                    <td><%=students[i].class%></td>
+                    <td><%=students[i].subject%></td>
+                    <td><%=students[i].teacher%></td>
+                    <td><%=students[i].city%></td>
+                    <td><%=students[i].country%></td>
+                    <td><button onclick="doEdit('<%=students[i].id%>');" >Edit</button></td>
+                    <td><button onclick="doDelete('<%=students[i].id %>');">Delete</button></td>
+                </tr>
+            <% }
+             }else{ %>
+                 <tr>
+                    <td colspan="7">No student found</td>
+                 </tr>
+            <% } %>
+          
+        </tbody>
+      </table>
+  </body>
+</html>
