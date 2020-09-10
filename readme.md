@@ -10,3 +10,74 @@ TRUNCATE (Deleted all data from table)
 SELECT
 UPDATE
 DELETE
+
+Steps to interact with DB
+
+Step 1: Create Pool
+Step 2: Get Connection From Pool
+Step 3: Use Connection to do Query
+Step 4: Release Connection
+
+Note:
+
+- Get or Put anything into database, you need to create a connection first (JS => DB)
+- Only fixed number of connections are allowed to DB (25) (infinity connections not possible)
+- you will get a connection from a pool of connections.
+
+_Insert Statement_
+
+INSERT INTO <<tablename>> <<fieldnames-optional>> VALUES <<values>>
+
+ex: insert into customer (name, phone) values ('hannan', '123')
+
+customer => tablename
+(name, phone) => field name
+('hannan', '123') => values
+
+_Select Statement_
+
+SELECT <<fieldname>> from <<tablename>> where <<condition>>
+
+Ex: Select name from customer where id = 1
+
+name => field name
+customer => table name
+id =1 => condition
+
+_Update Statement_
+
+UPDATE <<tablename>> set <<value>> where <<condition>>
+
+Ex: update customer set name='vivek' where id=1
+
+customer => tablename
+name='vivek' => value
+id=1 => condition
+
+_Delete Statement_
+
+DELETE FROM <<tablename>> where <<condition>>
+
+Ex: Delete from customer where id=1
+
+customer => table name
+id=1 => condition
+
+
+
+
+### Callback and Promise
+
+callback - it is function that is passed to another function, to be called after execution
+
+Ex: 
+Function A is callback function (something)
+Function A is passed to Function B as parameter
+Function B will call Function A on completion/when it wants
+
+promise - 
+
+Ex:
+Function Alpha is Function B
+Function B will return a promise after execution/when it wants
+Function Alpha will then use the promise and run something

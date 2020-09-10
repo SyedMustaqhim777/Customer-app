@@ -12,17 +12,16 @@ var customerMySQL = require("../model/customer-mysql");
 //     res.send(customerModel.getRecords());
 //   }
 // });
-router.get('/', function (req, res) {
-	let callback = (records) =>{
-		console.log("records"+records);
-		res.send(records);
-	}
-  customerMySQL.getCustomers().then(callback);
+router.get("/", function (req, res) {
+  customerMySQL.getCustomers().then((records) => {
+    res.send(records);
+  });
 });
 
 router.put("/", function (req, res) {
-  let callback = (result) => res.send(result);
-  customerMySQL.updateCustomer(req.body, callback);
+  customerMySQL.updateCustomer(req.body).then((result) => {
+    res.send(result);
+  });
 });
 
 // router.get("/", function (req, res) {
