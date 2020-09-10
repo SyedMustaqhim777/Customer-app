@@ -12,6 +12,15 @@ model.getRecords = function(){
 	return students;
 }
 
+model.getRecordById = function (id) {
+	for (var i = 0; i < students.length; i++) {
+	  if (id == students[i].id) {
+		return students[i];
+	  }
+	}
+	return {};
+  };
+
 model.addRecord = function(record){
 	return students.push(record);
 }
@@ -26,12 +35,20 @@ model.deleteRecord = function(record){
 	students = temp;
 }
 
-model.updateRecord = function(record){
-	let student = record;
+// model.updateRecord = function(record){
+// 	let student = record;
+// 	for (var i = 0; i < students.length; i++) {
+// 		if(student.id == students[i].id){
+// 			students[i] = student;
+// 		}
+// 	}
+// }
+
+model.updateRecord = function (record) {
 	for (var i = 0; i < students.length; i++) {
-		if(student.id == students[i].id){
-			students[i] = student;
-		}
+	  if (record.id == students[i].id) {
+		students[i] = record;
+	  }
 	}
-}
+  };
 module.exports = model;

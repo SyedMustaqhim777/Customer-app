@@ -1,8 +1,18 @@
 var express = require('express');
 var router = express.Router();
-var studentModel = require('./model/student');
+var studentModel = require('../model/student');
+var studentMySQL = require("../model/student-mysql");
 
+
+// router.get('/', function (req, res) {
+// 	let callback = (records) =>{
+// 		console.log("records"+records);
+// 		res.send(records);
+// 	}
+//   customerMySQL.getCustomers().then(callback);
+// });
 router.get('/', function (req, res) {
+	let call
 	res.send(studentModel.getRecords());
 });
 

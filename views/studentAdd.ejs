@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
 <title><%= title %></title>
@@ -17,7 +17,8 @@
       record.city = $('#city').val();
       record.country = $('#country').val();
 
-      record.id = (students.length + 1);
+      record.id = `<%= (students.length + 1) %>`;
+
       if(record.name ==""){
         alert('Name cannot be blank.');
       } else{
@@ -41,7 +42,7 @@
 <h1><%= title %></h1>
 <div id="login">
  <input id ="id" type="text" name="" placeholder="Enter id"><br/><br/>
- <input id ="name" type="text" name="" placeholder="Enter id"><br/><br/>
+ <input id ="name" type="text" name="" placeholder="Enter name"><br/><br/>
  <input id ="parent" type="text" name="" placeholder="Enter parent name"><br/><br/>
  <input id ="class" type="text" name="" placeholder="Enter class"><br/><br/>
  <input id ="subject" type="text" name="" placeholder="Enter subject"><br/><br/>
@@ -51,4 +52,4 @@
 <input onclick ="addstudent();" type="button" name="" value ="Submit">
 </div>
 </body>
-</html>
+</html> -->
