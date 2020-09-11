@@ -2,7 +2,7 @@ var model = {};
 var customers = [
   {
     id: 1,
-    name: "Vivek",
+    name: "Hannan",
     email: "vivek@gmail.com",
     phone: "112233",
     address: "ahmedabad",

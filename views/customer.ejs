@@ -74,13 +74,13 @@
             <tbody>
               <% if(customers.length){for(var i = 0;i < customers.length;i++) { %>
               <tr>
-                <td><%=customers[i].id%></td>
+                <td><%=customers[i]._id%></td>
                 <td><%=customers[i].name%></td>
                 <td><%=customers[i].email%></td>
                 <td><%=customers[i].phone%></td>
                 <td><%=customers[i].address%></td>
-                <td><button onclick="doEdit('<%=customers[i].id%>');">Edit</button></td>
-                <td><button onclick="doDelete('<%=customers[i].id %>');">Delete</button></td>
+                <td><button onclick="doEdit('<%=customers[i]._id%>');">Edit</button></td>
+                <td><button onclick="doDelete('<%=customers[i]._id %>');">Delete</button></td>
               </tr>
               <% }
              }else{ %>

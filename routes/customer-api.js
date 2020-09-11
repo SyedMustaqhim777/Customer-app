@@ -1,7 +1,8 @@
 var express = require("express");
 var router = express.Router();
-var customerModel = require("../model/customer");
-var customerMySQL = require("../model/customer-mysql");
+//var customerModel = require("../model/customer");
+//var customerMySQL = require("../model/customer-mysql");
+var customerMongo = require("../model/customer-mongo");
 
 // router.get("/", function (req, res) {
 //   let value = req.query.value;
@@ -13,13 +14,15 @@ var customerMySQL = require("../model/customer-mysql");
 //   }
 // });
 router.get("/", function (req, res) {
-  customerMySQL.getCustomers().then((records) => {
+  console.log("hannan");
+  customerMongo.getCustomers().then((records) => {
     res.send(records);
   });
 });
 
 router.put("/", function (req, res) {
-  customerMySQL.updateCustomer(req.body).then((result) => {
+  console.log(req.body);
+  customerMongo.updateCustomer(req.body).then((result) => {
     res.send(result);
   });
 });
@@ -40,7 +43,7 @@ router.put("/", function (req, res) {
 
 router.delete("/", function (req, res) {
   let customer = req.body;
-  customerMySQL.deleteCustomer(customer.id).then((result) => {
+  customerMongo.deleteCustomer(customer.id).then((result) => {
     res.send(result);
   });
 });
@@ -52,7 +55,7 @@ router.delete("/", function (req, res) {
 
 router.post("/", function (req, res) {
   let callback = (result) => res.send(result);
-  customerMySQL.addCustomer(req.body).then(callback);
+  customerMongo.addCustomer(req.body).then(callback);
 });
 
 module.exports = router;
