@@ -1,11 +1,13 @@
-#DDL - Data Definition Language
+# SQL Database
+
+## DDL - Data Definition Language
 
 CREATE (Creating Table)
 ALTER (Altering Existing Table)
 DROP (Deleting Table)
 TRUNCATE (Deleted all data from table)
 
-#DML - Data manipulation Language
+## DML - Data manipulation Language
 
 SELECT
 UPDATE
@@ -63,19 +65,55 @@ Ex: Delete from customer where id=1
 customer => table name
 id=1 => condition
 
+# MongoDB/NoSQL DB
+
+Step1: Create MongoDB object
+
+_CRUD_
+db.createCollection(<<tablename>>)
+
+ex: db.createCollection('users')
+
+- Create \*
+  db.<<collectionname>>.insert(<<keyvalue json object>>)
+
+Ex:
+db.users.insert({name: 'han'})
+
+- Read \*
+  db.<<collectioname>>.find(<<condition>>)
+
+Ex:
+db.users.find() // It will return all data
+db.users.find({name: 'han'}) //it will return matching data
+
+- Update \*
+  db.<<collectionname>>.update(<<condition>>,<<value>>)
+
+Ex:
+db.users.update({id: 'sdom', { key: value }})
+
+- Delete \*
+  db.<<collectionanme>>.remove(<<condition>>)
+
+Ex:
+db.users.remove({name: 'han'})
 
 
+Step1: You need to create a client with MongoClient 
+Step2: use that client to run query
 
-### Callback and Promise
+
+# Callback and Promise
 
 callback - it is function that is passed to another function, to be called after execution
 
-Ex: 
+Ex:
 Function A is callback function (something)
 Function A is passed to Function B as parameter
 Function B will call Function A on completion/when it wants
 
-promise - 
+promise -
 
 Ex:
 Function Alpha is Function B
