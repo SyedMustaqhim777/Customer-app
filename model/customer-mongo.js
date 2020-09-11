@@ -11,9 +11,9 @@ const CUSTOMERS = "customers";
 //let => the value can change later.
 //const => the value cannot change. (for programmers)
 
-var getDB = () => {
+var getClient = () => {
   return new Promise((resolve, reject) => {
-    MongoClient.connect(
+    return MongoClient.connect(
       url,
       { useNewUrlParser: true, useUnifiedTopology: true },
       (err, connection) => {
@@ -21,7 +21,8 @@ var getDB = () => {
           throw err;
         }
         var db = connection.db(dbName);
-        resolve(db, connection);
+        console.log(connection);
+        return resolve({db:db, connection:connection});
       }
     );
   });
@@ -30,12 +31,12 @@ var getDB = () => {
 // READ
 service.getCustomers = function () {
   return new Promise((resolve, reject) => {
-    getDB().then((db, connection) => {
-      db.collection(CUSTOMERS)
+    getClient().then((client) => {
+      client.db.collection(CUSTOMERS)
         .find()
         .toArray(function (err, result) {
           if (err) throw err;
-          connection.close();
+          client.connection.close();
           resolve(result);
         });
     });
@@ -49,12 +50,12 @@ service.getCustomers = function () {
 service.getCustomerById = function (id) {
   return new Promise((resolve, reject) => {
     var record = {};
-    getDB().then((db, connection) => {
-      db.collection(CUSTOMERS)
+    getClient().then((client) => {
+      client.db.collection(CUSTOMERS)
         .find({ _id: ObjectId(id) })
         .toArray(function (err, result) {
           if (err) throw err;
-          connection.close();
+          client.connection.close();
           /* 
           [
             {_id:sdfsf, name:adfjsdf},
@@ -70,10 +71,10 @@ service.getCustomerById = function (id) {
 //INSERT/CREATE
 service.addCustomer = function (record) {
   return new Promise((resolve, reject) => {
-    getDB().then((db, connection) => {
-      const collection = db.collection("customers");
+    getClient().then((client) => {
+      const collection = client.db.collection("customers");
       collection.insertMany([record], function (err, result) {
-        connection.close();
+        client.connection.close();
         resolve({ result: "success" });
       });
     });
@@ -83,11 +84,11 @@ service.addCustomer = function (record) {
 // DELETE
 service.deleteCustomer = function (id) {
   return new Promise((resolve, reject) => {
-    getDB().then((db, connection) => {
-      const collection = db.collection("customers");
+    getClient().then((client) => {
+      const collection = client.db.collection("customers");
       collection.deleteOne({ _id: ObjectId(id) }, function (err, result) {
         if (err) throw err;
-        connection.close();
+        client.connection.close();
         resolve({ result: "success" });
       });
     });
@@ -108,15 +109,15 @@ service.updateCustomer = function (customer) {
     let id = customer.id;
     delete customer.id;
 
-    getDB().then((db, connection) => {
-      const collection = db.collection(CUSTOMERS);
+    getClient().then((client) => {
+      const collection = client.db.collection(CUSTOMERS);
       collection.updateOne({ _id: ObjectId(id) }, { $set: customer }, function (
         err,
         result
       ) {
         console.log(err, result);
         resolve({ result: "success" });
-        connection.close();
+        client.connection.close();
       });
     });
   });
