@@ -1,4 +1,4 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
   <head>
     <title><%= title %></title>
@@ -10,8 +10,30 @@
 
     <script type="text/javascript">
 
+    doDelete = function (id) {
+      $.ajax({
+        url: "/api/student",
+        method: 'Delete',
+        data: { id: id },
+        success: function (response) {
+          if (response.result == "success") {
+            location = "/student";
+          } else {
+            alert(response.msg);
+          }
+        }
+      });
+    }
+
 doEdit = function (identifier) {
+      console.log("hello")      
       location = "/student/edit/" + identifier;
+    }
+
+doSearch = function(){
+  let key = $("#queryBy").val();
+  let value = $("#queryText").val();
+  location = '/student/search/'+key+"/"+value
     }
   </script>
 
@@ -25,6 +47,25 @@ doEdit = function (identifier) {
 
     <h4><%= students.length %> students<h4>
         <button onClick="location='/student/add';">Add student</button><br/><br/>
+
+      <!-- Search Feature Starts-->
+      <input id="queryText" type="text" name="" placeholder="Enter Search Text" />
+
+      <select name="queryBy" id="queryBy">
+        <option value="id">ID</option>
+        <option value="name">Name</option>
+        <option value="address">Address</option>
+        <option value="teacher">Teacher</option>
+        <option value="city">City</option>
+        <option value="country">Country</option>
+
+
+      </select>
+      <button onclick="doSearch()">Search</button>
+      <!-- Search Feature Ends-->
+
+      <br /><br />
+
        <div class="page-data" style="font-size: 14px; font-weight: normal;">
          <div class="data-table">
             <table border="1" cellpadding="7" cellspacing="7">
@@ -43,7 +84,7 @@ doEdit = function (identifier) {
         <tbody>
     <% if(students.length){for(var i = 0;i < students.length;i++) { %>       
                 <tr>
-                    <td><%=students[i].id%></td>
+                    <td><%=students[i]._id%></td>
                     <td><%=students[i].name%></td>
                     <td><%=students[i].parent%></td>
                     <td><%=students[i].class%></td>
@@ -51,8 +92,8 @@ doEdit = function (identifier) {
                     <td><%=students[i].teacher%></td>
                     <td><%=students[i].city%></td>
                     <td><%=students[i].country%></td>
-                    <td><button onclick="doEdit('<%=students[i].id%>');" >Edit</button></td>
-                    <td><button onclick="doDelete('<%=students[i].id %>');">Delete</button></td>
+                    <td><button onclick="doEdit('<%=students[i]._id%>');" >Edit</button></td>
+                    <td><button onclick="doDelete('<%=students[i]._id %>');">Delete</button></td>
                 </tr>
             <% }
              }else{ %>
@@ -64,4 +105,4 @@ doEdit = function (identifier) {
         </tbody>
       </table>
   </body>
-</html> -->
+</html>

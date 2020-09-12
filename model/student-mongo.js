@@ -5,7 +5,7 @@ var ObjectId = require("mongodb").ObjectID;
 var service = {};
 var dbName = "nodejs";
 const url = "mongodb://localhost:27017";
-const CUSTOMERS = "customers";
+const STUDENTS = "students";
 
 //var => old JS
 //let => the value can change later.
@@ -29,10 +29,10 @@ var getClient = () => {
 };
 
 // READ
-service.getCustomers = function () {
+service.getStudents = function () {
   return new Promise((resolve, reject) => {
     getClient().then((client) => {
-      client.db.collection(CUSTOMERS)
+      client.db.collection(STUDENTS)
         .find()
         .toArray(function (err, result) {
           if (err) throw err;
@@ -47,11 +47,11 @@ service.getCustomers = function () {
 // in database _id is stored in format of ObjectId
 // but when you run query to get it gives in readable format
 
-service.getCustomerById = function (id) {
+service.getStudentById = function (id) {
   return new Promise((resolve, reject) => {
     var record = {};
     getClient().then((client) => {
-      client.db.collection(CUSTOMERS)
+      client.db.collection(STUDENTS)
         .find({ _id: ObjectId(id) })
         .toArray(function (err, result) {
           if (err) throw err;
@@ -69,10 +69,10 @@ service.getCustomerById = function (id) {
 };
 
 //INSERT/CREATE
-service.addCustomer = function (record) {
+service.addStudent = function (record) {
   return new Promise((resolve, reject) => {
     getClient().then((client) => {
-      const collection = client.db.collection("customers");
+      const collection = client.db.collection(STUDENTS);
       collection.insertMany([record], function (err, result) {
         client.connection.close();
         resolve({ result: "success" });
@@ -82,10 +82,10 @@ service.addCustomer = function (record) {
 };
 
 // DELETE
-service.deleteCustomer = function (id) {
+service.deleteStudent = function (id) {
   return new Promise((resolve, reject) => {
     getClient().then((client) => {
-      const collection = client.db.collection("customers");
+      const collection = client.db.collection(STUDENTS);
       collection.deleteOne({ _id: ObjectId(id) }, function (err, result) {
         if (err) throw err;
         client.connection.close();
@@ -104,14 +104,14 @@ service.deleteCustomer = function (id) {
 }
 
 */
-service.updateCustomer = function (customer) {
+service.updateStudent = function (student) {
   return new Promise((resolve, reject) => {
-    let id = customer.id;
-    delete customer.id;
+    let id = student.id;
+    delete student.id;
 
     getClient().then((client) => {
-      const collection = client.db.collection(CUSTOMERS);
-      collection.updateOne({ _id: ObjectId(id) }, { $set: customer }, function (
+      const collection = client.db.collection(STUDENTS);
+      collection.updateOne({ _id: ObjectId(id) }, { $set: student }, function (
         err,
         result
       ) {
@@ -123,7 +123,7 @@ service.updateCustomer = function (customer) {
   });
 };
 
-service.getCustomersBySearch = function (field, searchText) {
+service.getStudentsBySearch = function (field, searchText) {
   var records = [];
   //searhObject[searchParam.field] = "/"+searchParam.searchword+"/i";
   //console.log("search ==> "+JSON.stringify(searchParam));
@@ -133,7 +133,7 @@ service.getCustomersBySearch = function (field, searchText) {
     MongoClient.connect(url, { useNewUrlParser: true }, function (err, client) {
       assert.equal(null, err);
       const db = client.db(dbName);
-      db.collection("customers")
+      db.collection("students")
         .find({ [field]: { $regex: searchText, $options: "i" } })
         .toArray(function (err, result) {
           if (err) throw err;
@@ -144,8 +144,8 @@ service.getCustomersBySearch = function (field, searchText) {
     });
   });
 };
-// //sqlService.getCustomersBySearch(searchParam,callback);
-// service.getCustomersBySearchOLD = function (searchParam, callback) {
+// //sqlService.getstudentsBySearch(searchParam,callback);
+// service.getstudentsBySearchOLD = function (searchParam, callback) {
 //   var records = [];
 //   //searhObject = {searchParam.field: '//i'}
 //   MongoClient.connect(
@@ -154,7 +154,7 @@ service.getCustomersBySearch = function (field, searchText) {
 //     function (err, client) {
 //       assert.equal(null, err);
 //       const db = client.db(dbName);
-//       db.collection("customers")
+//       db.collection("students")
 //         .find({ name: /vivek/i })
 //         .toArray(function (err, result) {
 //           if (err) throw err;

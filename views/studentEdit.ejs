@@ -1,4 +1,4 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
   <head>
     <title><%= title %></title>
@@ -7,6 +7,7 @@
   <body>
     <script type="text/javascript">
       updateStudent = () => {
+        console.log("hi")
         var record = {};
         record.id = $("#id").val();
         record.name = $("#name").val();
@@ -46,7 +47,7 @@
         type="text"
         name=""
         placeholder="id"
-        value="<%= students.id %>"
+        value="<%= student._id %>"
         readonly
       /><br /><br />
       <input
@@ -54,49 +55,49 @@
         type="text"
         name=""
         placeholder="Enter name"
-        value="<%= students.name %>"
+        value="<%= student.name %>"
       /><br /><br />
       <input
         id="parent"
         type="text"
         name=""
         placeholder="Enter parent name"
-        value="<%= students.parent %>"
+        value="<%= student.parent %>"
       /><br /><br />
       <input
         id="class"
         type="text"
         name=""
         placeholder="Enter class"
-        value="<%= students.class %>"
+        value="<%= student.class %>"
       /><br /><br />
       <input
         id="subject"
         type="text"
         name=""
         placeholder="Enter subject"
-        value="<%= students.subject %>"
+        value="<%= student.subject %>"
       /><br /><br />
       <input
         id="teacher"
         type="text"
         name=""
         placeholder="Enter teacher name"
-        value="<%= students.teacher %>"
+        value="<%= student.teacher %>"
       /><br /><br />
       <input
         id="city"
         type="text"
         name=""
         placeholder="Enter city"
-        value="<%= students.city %>"
+        value="<%= student.city %>"
       /><br /><br />
       <input
         id="country"
         type="text"
         name=""
         placeholder="Enter country"
-        value="<%= students.country %>"
+        value="<%= student.country %>"
       /><br /><br />
       <input
         onclick="updateStudent();"
@@ -106,4 +107,4 @@
       /><br />
     </div>
   </body>
-</html> -->
+</html>

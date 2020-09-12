@@ -1,4 +1,5 @@
 var mysql = require("mysql");
+const { promiseImpl } = require("ejs");
 
 var pool = mysql.createPool({
   connectionLimit: 10,
@@ -10,64 +11,104 @@ var pool = mysql.createPool({
 
 var service = {};
 
-service.getRecords = function (callback) {
-  var sql = "SELECT * FROM student";
-  console.log("sql:" + sql);
-  pool.getConnection(function (err, connection) {
-    if (err) {
-      console.log(err);
-      callback([]);
-      return;
-    }
-    // make the query
-    connection.query(sql, function (err, results) {
-      connection.release();
-      if (err) {
-        console.log(err);
-        callback([]);
-        return;
-      }
-      callback(results);
-    });
-  });
-};
-
-service.getStudents = async function () {
-  var students = [];
-  var sql = "SELECT * FROM student";
-  await new Promise((resolve, reject) => {
+// service.getRecords = function (callback) {
+//   var sql = "SELECT * FROM student";
+//   console.log("sql:" + sql);
+//   pool.getConnection(function (err, connection) {
+//     if (err) {
+//       console.log(err);
+//       callback([]);
+//       return;
+//     }
+//     // make the query
+//     connection.query(sql, function (err, results) {
+//       connection.release();
+//       if (err) {
+//         console.log(err);
+//         callback([]);
+//         return;
+//       }
+//       callback(results);
+//     });
+//   });
+// };
+service.getStudents = function () {
+  return new Promise((resolve, reject) => {
     pool.getConnection(function (err, connection) {
       if (err) {
-        console.log(err);
-        resolve();
-        return students;
+        return resolve([]);
       }
       // make the query
-      connection.query(sql, function (err, results) {
+      connection.query("SELECT * FROM student", function (err, results) {
         connection.release();
         if (err) {
-          console.log(err);
-          resolve();
+          return resolve([]);
         }
-        students = results;
-        resolve();
+        return resolve(results);
       });
     });
   });
-  return students; //argument to Promise
 };
 
-service.addStudent = function (student, callback) {
-  console.log(JSON.stringify(student));
+// service.getStudents = async function () {
+//   var students = [];
+//   var sql = "SELECT * FROM student";
+//   await new Promise((resolve, reject) => {
+//     pool.getConnection(function (err, connection) {
+//       if (err) {
+//         console.log(err);
+//         resolve();
+//         return students;
+//       }
+//       // make the query
+//       connection.query(sql, function (err, results) {
+//         connection.release();
+//         if (err) {
+//           console.log(err);
+//           resolve();
+//         }
+//         students = results;
+//         resolve();
+//       });
+//     });
+//   });
+//   return students; //argument to Promise
+// };
+
+// //Create or Add
+// service.addCustomer = function (customer) {
+//   return new Promise((resolve, reject) => {
+//     pool.getConnection(function (err, connection) {
+//       if (err) {
+//         console.log(err);
+//         resolve({ result: "fail", msg: "customer addition failed." });
+//       }
+//       //use the connection to query
+//       let queryCallback = function (err, results) {
+//         connection.release();
+//         if (err) {
+//           console.log("Error Selecting : %s ", err);
+//           resolve({ result: "fail", msg: "customer addition failed." });
+//         } else {
+//           resolve({ result: "success", msg: "customer added ok." });
+//         }
+//       };
+//       connection.query("INSERT INTO customer set ? ", customer, queryCallback);
+//     });
+//   });
+// };
+
+service.addStudent = function (student) {
+  // console.log(JSON.stringify(student));
   return new Promise((resolve, reject) => {
     pool.getConnection(function (err, connection) {
       if (err) {
         console.log(err);
-        callback({ result: "fail", msg: "student addition failed." });
+        resolve({ result: "fail", msg: "student addition failed." });
       }
       connection.query("INSERT INTO student set ? ", student, function (
         err,
-        results
+        result
       ) {
         connection.release();
         if (err) {
@@ -98,53 +139,120 @@ service.addStudent = function (student, callback) {
 //   });
 // };
 
-service.updateStudent = function (student, callback) {
-  pool.getConnection(function (err, connection) {
-    if (err) {
-      console.log(err);
-      callback({ result: "fail" });
-      return;
-    }
+
+// //UPDATE
+// service.updateCustomer = function (customer) {
+//   //Promise
+//   return new Promise((resolve, reject) => {
+//     pool.getConnection(function (err, connection) {
+//       if (err) {
+//         console.log(err);
+//         return resolve({ result: "fail", msg: "customer updation failed." });
+//       }
+//       connection.query(
+//         "UPDATE customer set ? WHERE id = ? ",
+//         [customer, customer.id],
+//         function (err, results) {
+//           if (err) {
+//             return resolve({
+//               result: "fail",
+//               msg: "customer updation failed.",
+//             });
+//           } else {
+//             return resolve({ result: "success" });
+//           }
+//         }
+//       );
+//     });
+//   });
+// };
+service.updateStudent = function (student) {
+  return new Promise((resolve, reject) => {
+    pool.getConnection(function (err, connection) {
+      if (err) {
+        console.log(err);
+        callback({ result: "fail" });
+        return;
+      }
+
     connection.query(
       "UPDATE student set ? WHERE id = ? ",
       [student, student.id],
       function (err, results) {
         if (err) {
           console.log("Error Selecting : %s ", err);
-          callback({ result: "fail" });
+          resolve({ result: "fail" });
         } else {
-          callback({ result: "success" });
+          resolve({ result: "success" });
         }
       }
     );
   });
-};
+});
+}
 
-service.getStudentById = function (id, callback) {
+
+
+
+
+// service.getCustomerById = function (id) {
+//   var record = {};
+
+//   return new Promise((resolve, reject) => {
+//     pool.getConnection(function (err, connection) {
+//       if (err) {
+//         resolve({});
+//         return;
+//       }
+//       // make the query
+//       var sql = "SELECT * FROM customer where id='" + id + "'";
+//       connection.query(sql, function (err, results) {
+//         connection.release();
+//         if (err) {
+//           console.log(err);
+//           resolve({});
+//           return;
+//         }
+//         if (results.length == 0) {
+//           resolve(record);
+//         }
+//         resolve(results[0]);
+//       });
+//     });
+//   });
+// };
+
+service.getStudentById = function (id) {
   var record = {};
-  var sql = "SELECT * FROM student where id='" + id + "'";
-  console.log("sql:" + sql);
-  pool.getConnection(function (err, connection) {
-    if (err) {
-      console.log(err);
-      callback({});
-      return;
-    }
-    // make the query
-    connection.query(sql, function (err, results) {
-      connection.release();
+
+  return new Promise((resolve, reject) => {
+    pool.getConnection(function (err, connection) {
       if (err) {
         console.log(err);
         callback({});
         return;
       }
-      if (results.length == 0) {
-        callback(record);
-      }
-      callback(results[0]);
+      //making query
+      var sql = "SELECT * FROM student where id='" + id + "'";
+      connection.query(sql, function (err, results) {
+        connection.release();
+        if (err) {
+          console.log(err);
+          resolve({});
+          return;
+        }
+        if (results.length == 0) {
+          resolve(record);
+        }
+        resolve(results[0]);
+        console.log("DB Working")
+      });
     });
   });
-};
+}
+
+
+ 
 
 service.deleteStudent = (id) => {
   var students = [];
@@ -167,25 +275,34 @@ service.deleteStudent = (id) => {
   });
 };
 
-service.getStudentsBySearch = function(field, searchText) {
+service.getStudentsBySearch = function (field, searchText) {
   var recordList = [];
-  var sql = "SELECT * FROM student where "+field+" like '%"+searchText+"%'";
-  console.log("sql:"+sql);
+  var sql =
+    "SELECT * FROM student where " + field + " like '%" + searchText + "%'";
+  console.log("sql:" + sql);
   return new Promise((resolve, reject) => {
-  pool.getConnection(function(err, connection) {
-    if(err) { console.log(err); resolve({}); return; }
-    // make the query
-    connection.query(sql, function(err, results) {
-      connection.release();
-      if(err) { console.log(err); resolve({}); return; }
-      if(results.length == 0){
-        resolve(recordList);
-      }else{
-        resolve(results);
+    pool.getConnection(function (err, connection) {
+      if (err) {
+        console.log(err);
+        resolve({});
+        return;
       }
+      // make the query
+      connection.query(sql, function (err, results) {
+        connection.release();
+        if (err) {
+          console.log(err);
+          resolve({});
+          return;
+        }
+        if (results.length == 0) {
+          resolve(recordList);
+        } else {
+          resolve(results);
+        }
+      });
     });
   });
-});
 };
 
 module.exports = service;
