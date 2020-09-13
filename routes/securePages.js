@@ -34,6 +34,9 @@ router.get("/about", function (req, res, next) {
   res.render("index", { title: "About" });
 });
 
+//a => principal
+//b => teacher
+
 router.get("/customer", function (req, res, next) {
   var callback = function (data) {
     res.render("customer", { title: "Customer", customers: data });
@@ -53,12 +56,12 @@ router.get("/student/add", function (req, res, next) {
 });
 
 router.get("/student/edit/:id", function (req, res, next) {
-  console.log("In route - edit")
+  console.log("In route - edit");
   var callback = function (data) {
     res.render("studentEdit", { title: "Update student", student: data });
   };
   studentMongo.getStudentById(req.params.id).then(callback);
-  console.log("in route - got the data")
+  console.log("in route - got the data");
 });
 
 router.get("/student/search/:field/:text", function (req, res, next) {
@@ -68,7 +71,6 @@ router.get("/student/search/:field/:text", function (req, res, next) {
     .getStudentsBySearch(req.params.field, req.params.text)
     .then(callback);
 });
-
 
 router.get("/customer/:search", function (req, res, next) {
   res.redirect("/customer");

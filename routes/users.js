@@ -7,16 +7,18 @@ router.get("/", function (req, res, next) {
 });
 
 // verify this with Postman
-router.post('/login', function(req, res, next) {
-	if(req.body.email!="" && req.body.email == req.body.password ){
-		// req.session.user = req.body.email;
-		// console.log("req.session.user:"+req.session.user);
-		res.send ({result:'success', msg:'login is successful.'});
-	}else{
-		res.send ({result:'fail', msg:'login failed.'});
-	}
+router.post("/login", function (req, res, next) {
+  if (req.body.email != "" && req.body.email == req.body.password) {
+    //creating the session with user information (email)
+    req.session.user = req.body.email;
+    res.send({ result: "success", msg: "login is successful." });
+  } else {
+    res.send({ result: "fail", msg: "login failed." });
+  }
 });
 
 
+//Authentication => login & logout 
+//Authorization => Access Control
 
 module.exports = router;
